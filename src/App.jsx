@@ -67,7 +67,8 @@ function App() {
             notes,
             services,
             unit_occupied,
-            HSP
+            HSP,
+            staff
           ] = row.split(",");
 
           return {
@@ -79,7 +80,9 @@ function App() {
             notes: notes ? Number(notes) : null,
             services: services ? Number(services) : null,
             unit_occupied: unit_occupied?.trim().toLowerCase() === "true" ? true : null,
-            HSP: HSP?.trim().toLowerCase() === "true" ? true : null
+            HSP: HSP?.trim().toLowerCase() === "true" ? true : null,
+            staff: staff?.trim() || null
+
           };
         }).filter(d => d.id);
 

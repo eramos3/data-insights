@@ -25,6 +25,7 @@ function MissingData({ data }) {
             <th style={{ border: "1px solid #ccc", padding: "8px" }}>Services</th>
             <th style={{ border: "1px solid #ccc", padding: "8px" }}>Unit Occupied</th>
             <th style={{ border: "1px solid #ccc", padding: "8px" }}>HSP</th>
+            <th>Staff</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,8 @@ function MissingData({ data }) {
               <td style={{ border: "1px solid #ccc", padding: "8px", color: row.HSP !== true ? "red" : "black" }}>
                 {row.HSP ? "True" : "False/Missing"}
               </td>
+              <td>{row.staff}</td>
+
             </tr>
           ))}
         </tbody>

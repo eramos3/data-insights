@@ -1,35 +1,85 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  margin: 0;
-  padding: 0;
-}
+/* App.css */
 
+/* General page container */
 .container {
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
+/* Header */
 .header {
   font-size: 2rem;
   font-weight: bold;
+  margin-bottom: 16px;
 }
 
+/* Card style */
 .card {
-  background-color: white;
-  padding: 24px;
+  background-color: #fff;
+  padding: 16px;
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 24px;
 }
 
-.card h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
+/* Chart card overrides if needed */
 .chart-card {
-  height: 320px;
+  height: auto; /* allow table/chart to expand naturally */
+  overflow: auto; /* add scroll if content too tall */
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #4f46e5; /* match chart bar color */
+  color: #fff;
+  position: sticky;
+  top: 0; /* keep headers visible when scrolling */
+  z-index: 1;
+}
+
+/* Highlight missing/false values */
+.missing {
+  background-color: #fee2e2; /* light red */
+}
+
+/* Buttons / links */
+.link-button {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.link-button:hover {
+  background-color: #3730a3;
+}
+
+/* Input/select fields */
+.input {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+/* Make table container scrollable if too many rows */
+.card.chart-card {
+  max-height: 70vh; /* adjust as needed */
+  overflow-y: auto;
 }

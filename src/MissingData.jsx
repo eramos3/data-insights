@@ -18,6 +18,16 @@ export default function MissingData({ data }) {
       d.ss_card !== true
   );
 
+  const summaryCounts = {
+    Notes: data.filter(d => d.notes === null).length,
+    Services: data.filter(d => d.services === null).length,
+    "Units Occupied": data.filter(d => d.unit_occupied !== true).length,
+    HSP: data.filter(d => d.HSP !== true).length,
+    "ID Card": data.filter(d => d.id_card !== true).length,
+    "SS Card": data.filter(d => d.ss_card !== true).length,
+  };
+
+
   // Apply staff filter
   const filteredRows = selectedStaff
     ? missingRows.filter(row => row.staff === selectedStaff)
@@ -93,6 +103,27 @@ export default function MissingData({ data }) {
     <div className="container">
       <h1 className="header">Rows with Missing or False Values</h1>
       <Link to="/" className="link-button">← Back to Dashboard</Link>
+
+      <div className="card" style={{ marginBottom: "16px", padding: "12px" }}>
+        <h2 className="text-xl font-semibold mb-2">Missing Data Summary</h2>
+          <table className="table" style={{ marginBottom: "8px" }}>
+            <thead>
+              <tr>
+                {Object.keys(summaryCounts).map(col => (
+                  <th key={col}>{col}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {Object.values(summaryCounts).map((count, idx) => (
+                  <td key={idx}>{count}</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+      </div>
+
 
       <div style={{ marginTop: "16px", marginBottom: "16px" }}>
         <label>

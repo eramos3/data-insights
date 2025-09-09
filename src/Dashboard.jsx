@@ -10,7 +10,9 @@ export default function Dashboard({ data, insights }) {
     { name: "Notes", value: insights.countNotes || 0 },
     { name: "Services", value: insights.countServices || 0 },
     { name: "Units Occupied", value: insights.unitOccupiedTrue || 0 },
-    { name: "HSP", value: insights.HSPTrue || 0 }
+    { name: "HSP", value: insights.HSPTrue || 0 },
+    { name: "ID Card", value: insights.IdTrue || 0 },
+    { name: "SSC", value: insights.sscTrue || 0 }
   ];
 
   return (
@@ -24,6 +26,8 @@ export default function Dashboard({ data, insights }) {
         <p>Services Count: {insights.countServices}</p>
         <p>Units Occupied: {insights.unitOccupiedTrue}</p>
         <p>HSP: {insights.HSPTrue}</p>
+        <p>ID Cards: {insights.IdTrue}</p>
+        <p>SSC Card: {insights.sscTrue}</p>
         <Link to="/missing" className="link-button">
           View rows with missing values →
         </Link>

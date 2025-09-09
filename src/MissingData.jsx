@@ -13,7 +13,9 @@ export default function MissingData({ data }) {
     d =>
       d.services === null ||
       d.unit_occupied !== true ||
-      d.HSP !== true
+      d.HSP !== true ||
+      d.id_card !== true ||
+      d.ss_card !== true
   );
 
   // Apply staff filter
@@ -55,7 +57,9 @@ export default function MissingData({ data }) {
     { header: "Services", dataKey: "services" },
     { header: "Unit Occupied", dataKey: "unit_occupied" },
     { header: "HSP", dataKey: "HSP" },
-    { header: "Staff", dataKey: "staff" },
+    { header: "ID Card", dataKey: "id_card" },
+    { header: "SSC", dataKey: "ss_card" },
+    { header: "Staff", dataKey: "staff" }
   ];
 
   // Map data rows, ensuring no nulls
@@ -67,6 +71,8 @@ export default function MissingData({ data }) {
     services: row.services ?? "Missing",
     unit_occupied: row.unit_occupied === true ? "True" : "False/Missing",
     HSP: row.HSP === true ? "True" : "False/Missing",
+    id_card: row.id_card === true ? "True" : "False/Missing",
+    ss_card: row.ss_card === true ? "True" : "False/Missing",
     staff: row.staff
   }));
 
@@ -122,6 +128,8 @@ export default function MissingData({ data }) {
               <th>Services</th>
               <th>Unit Occupied</th>
               <th>HSP</th>
+              <th>ID Card</th>
+              <th>SSC</th>
               <th>Staff</th>
             </tr>
           </thead>
@@ -140,6 +148,12 @@ export default function MissingData({ data }) {
                 </td>
                 <td className={row.HSP !== true ? "missing" : ""}>
                   {row.HSP ? "True" : "False/Missing"}
+                </td>
+                <td className={row.id_card !== true ? "missing" : ""}>
+                  {row.id_card ? "True" : "False/Missing"}
+                </td>
+                <td className={row.ss_card !== true ? "missing" : ""}>
+                  {row.ss_card ? "True" : "False/Missing"}
                 </td>
                 <td>{row.staff}</td>
               </tr>

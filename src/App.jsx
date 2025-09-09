@@ -31,7 +31,9 @@ function App() {
               services,
               unit_occupied,
               HSP,
-              staff
+              staff,
+              id_card,
+              ss_card
             ] = columns;
 
             return {
@@ -44,7 +46,9 @@ function App() {
               services: services ? Number(services) : null,
               unit_occupied: unit_occupied?.trim().toLowerCase() === "true" ? true : null,
               HSP: HSP?.trim().toLowerCase() === "true" ? true : null,
-              staff: staff?.trim() || ""
+              staff: staff?.trim() || "",
+              id_card: id_card?.trim().toLowerCase() === "true" ? true : null,
+              ss_card: ss_card?.trim().toLowerCase() === "true" ? true : null
             };
           })
           .filter(d => d !== null && d.id);
@@ -55,13 +59,17 @@ function App() {
         const countServices = parsedData.filter(d => d.services !== null).length;
         const unitOccupiedTrue = parsedData.filter(d => d.unit_occupied).length;
         const HSPTrue = parsedData.filter(d => d.HSP).length;
+        const IdTrue = parsedData.filter(d => d.id_card).length;
+        const sscTrue = parsedData.filter(d => d.ss_card).length;
 
         setInsights({
           totalRows: parsedData.length,
           countNotes,
           countServices,
           unitOccupiedTrue,
-          HSPTrue
+          HSPTrue,
+          IdTrue,
+          sscTrue
         });
       });
   }, []);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useMemo } from "react";
 import { Link } from "react-router-dom";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
@@ -7,34 +7,53 @@ import './App.css';
 
 export default function MissingData({ data }) {
   const [selectedStaff, setSelectedStaff] = useState("");
+  const [selectedProgram, setSelectedProgram] = useState("");
+
+  const programList = Array.from(new Set(data.map(row => row.program_name)));
+
+
 
   // Rows with missing/false values
-  const missingRows = data.filter(
-    d =>
-      d.services === null ||
-      d.unit_occupied !== true ||
-      d.HSP !== true ||
-      d.id_card !== true ||
-      d.ss_card !== true
+  const missingRows = useMemo(()=>
+    data.filter(
+      d =>
+        d.services === null ||
+        d.unit_occupied !== true ||
+        d.HSP !== true ||
+        d.id_card !== true ||
+        d.ss_card !== true
+    ),
+    [data]
   );
 
+  // Apply staff & program filter
+  const filteredRows = useMemo(() => {
+    return missingRows
+     .filter(row => !selectedProgram ||row.program_name === selectedProgram)
+      
+     .filter(row => !selectedStaff || row.staff === selectedStaff);
+      
+  },[missingRows,selectedProgram,selectedStaff]);
+
   const summaryCounts = {
-    Notes: data.filter(d => d.notes === null).length,
-    Services: data.filter(d => d.services === null).length,
-    "Units Occupied": data.filter(d => d.unit_occupied !== true).length,
-    HSP: data.filter(d => d.HSP !== true).length,
-    "ID Card": data.filter(d => d.id_card !== true).length,
-    "SS Card": data.filter(d => d.ss_card !== true).length,
+    Notes: filteredRows.filter(d => d.notes === null).length,
+    Services: filteredRows.filter(d => d.services === null).length,
+    "Units Occupied": filteredRows.filter(d => d.unit_occupied !== true).length,
+    HSP: filteredRows.filter(d => d.HSP !== true).length,
+    "ID Card": filteredRows.filter(d => d.id_card !== true).length,
+    "SS Card": filteredRows.filter(d => d.ss_card !== true).length,
   };
 
 
-  // Apply staff filter
-  const filteredRows = selectedStaff
-    ? missingRows.filter(row => row.staff === selectedStaff)
-    : missingRows;
-
   // Unique staff names for dropdown
-  const staffList = Array.from(new Set(missingRows.map(row => row.staff)));
+  const staffList = useMemo(() => 
+    Array.from(new Set(
+      missingRows
+      .filter(row => !selectedProgram || row.program_name === selectedProgram)
+      .map(row => row.staff)
+    )),
+    [missingRows,selectedProgram]
+  );
 
   // Export to Excel
   const exportExcel = () => {
@@ -51,7 +70,7 @@ export default function MissingData({ data }) {
 
   // Export to PDF
   const exportPDF = () => {
-  if (!filteredRows || filteredRows.length === 0) {
+  if (!filteredRows.length) {
     alert("No data to export");
     return;
   }
@@ -127,6 +146,20 @@ export default function MissingData({ data }) {
 
       <div style={{ marginTop: "16px", marginBottom: "16px" }}>
         <label>
+          Filter by Program:{" "}
+          <select
+            value={selectedProgram}
+            onChange={e => setSelectedProgram(e.target.value)}
+            className="input"
+          >
+            <option value="">All</option>
+            {programList.map(prog => (
+              <option key={prog} value={prog}>{prog}</option>
+            ))}
+          </select>
+        </label>
+
+        <label>
           Filter by Staff:{" "}
           <select
             value={selectedStaff}
@@ -170,7 +203,9 @@ export default function MissingData({ data }) {
                 <td>{row.id}</td>
                 <td>{row.first_name}</td>
                 <td>{row.last_name}</td>
-                <td>{row.notes ?? ""}</td>
+                <td className={row.notes === null ? "missing" : ""}>
+                  {row.notes ?? "Missing"}
+                </td>
                 <td className={row.services === null ? "missing" : ""}>
                   {row.services ?? "Missing"}
                 </td>

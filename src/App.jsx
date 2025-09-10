@@ -33,7 +33,8 @@ function App() {
               HSP,
               staff,
               id_card,
-              ss_card
+              ss_card,
+              program_name
             ] = columns;
 
             return {
@@ -48,7 +49,8 @@ function App() {
               HSP: HSP?.trim().toLowerCase() === "true" ? true : null,
               staff: staff?.trim() || "",
               id_card: id_card?.trim().toLowerCase() === "true" ? true : null,
-              ss_card: ss_card?.trim().toLowerCase() === "true" ? true : null
+              ss_card: ss_card?.trim().toLowerCase() === "true" ? true : null,
+              program_name: program_name?.trim() || "",
             };
           })
           .filter(d => d !== null && d.id);
